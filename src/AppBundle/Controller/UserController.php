@@ -61,6 +61,8 @@ class UserController extends FOSRestController
     }
 
     /**
+     * Helper method if we need modify view before returning it
+     *
      * @param        $data
      * @param int    $code
      * @param array  $headers
