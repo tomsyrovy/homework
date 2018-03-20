@@ -60,6 +60,19 @@ class UserController extends FOSRestController
 
     }
 
+    /**
+     * @param        $data
+     * @param int    $code
+     * @param array  $headers
+     *
+     * @return \FOS\RestBundle\View\View
+     */
+    private function createView($data, int $code, array $headers = []): View{
+
+        return new View($data, $code, $headers);
+
+    }
+
 
     /**
      * List of all users.
@@ -110,10 +123,10 @@ class UserController extends FOSRestController
     {
         $user = $this->getUserById($id);
         if (!$user) {
-            return new View('User not found.', Response::HTTP_NOT_FOUND);
+            return $this->createView('User not found.', Response::HTTP_NOT_FOUND);
         }
 
-        return new View($user);
+        return $this->createView($user, Response::HTTP_OK);
 
     }
 
@@ -163,12 +176,12 @@ class UserController extends FOSRestController
             $em->flush();
 
         }catch(UniqueConstraintViolationException $e){
-            return new View('User already exists.', Response::HTTP_NOT_ACCEPTABLE);
+            return $this->createView('User already exists.', Response::HTTP_NOT_ACCEPTABLE);
         }catch(NotNullConstraintViolationException $e){
-            return new View('Not fully submitted data.', Response::HTTP_NOT_ACCEPTABLE);
+            return $this->createView('Not fully submitted data.', Response::HTTP_NOT_ACCEPTABLE);
         }
 
-        return new View($user, Response::HTTP_OK);
+        return $this->createView($user, Response::HTTP_OK);
 
     }
 
@@ -212,7 +225,7 @@ class UserController extends FOSRestController
     {
         $user = $this->getUserById($id);
         if (!$user) {
-            return new View('User not found.', Response::HTTP_NOT_FOUND);
+            return $this->createView('User not found.', Response::HTTP_NOT_FOUND);
         }
 
         $user = UserManager::updateByParams($user, $paramFetcher);
@@ -222,7 +235,7 @@ class UserController extends FOSRestController
         $em->persist($user);
         $em->flush();
 
-        return new View($user, Response::HTTP_OK);
+        return $this->createView($user, Response::HTTP_OK);
 
     }
 
@@ -251,13 +264,13 @@ class UserController extends FOSRestController
     {
         $user = $this->getUserById($id);
         if (!$user) {
-            return new View('User not found.', Response::HTTP_NOT_FOUND);
+            return $this->createView('User not found.', Response::HTTP_NOT_FOUND);
         }
 
         $em = $this->getManager();
         $em->remove($user);
         $em->flush();
 
-        return new View('Successfully removed.', Response::HTTP_OK);
+        return $this->createView('Successfully removed.', Response::HTTP_OK);
     }
 }
