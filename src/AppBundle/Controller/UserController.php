@@ -67,6 +67,7 @@ class UserController extends FOSRestController
      * @Annotations\Route("api/users/", methods={"GET"}, name="get_users")
      *
      * @ApiDoc(
+     *      section="User",
      *      statusCodes = {
      *          200 = "Returned when successful"
      *      }
@@ -88,6 +89,7 @@ class UserController extends FOSRestController
      * @Annotations\Route("api/user/{id}/", methods={"GET"}, name="get_user")
      *
      * @ApiDoc(
+     *   section="User",
      *   output = "AppBundle\Entity\User",
      *   statusCodes = {
      *     200 = "Returned when successful",
@@ -116,24 +118,32 @@ class UserController extends FOSRestController
     }
 
     /**
-     * Creates a new user from the submitted data.
+     * Creates a new user from the submitted data and return that object.
      *
      * @Annotations\Route("api/user/", methods={"POST"})
      *
      * @ApiDoc(
+     *   section="User",
      *   resource = true,
-     *   input = "AppBundle\Form\UserType",
+     *   output = "AppBundle\Entity\User",
      *   statusCodes = {
-     *     200 = "Returned when successful",
-     *     500 = "Returned when there are errors"
+     *          200 = "Returned when successful",
+     *          400 = "Returned when there are errors",
+     *          500 = "Returned when there are errors"
+     *   },
+     *   parameters = {
+     *          { "name" = "username", "dataType" = "string" },
+     *          { "name" = "email", "dataType" = "string" },
+     *          { "name" = "firstname", "dataType" = "string" },
+     *          { "name" = "lastname", "dataType" = "string" }
      *   }
      * )
      * @Annotations\View()
      *
-     * @Annotations\QueryParam(name="username", description="Username", nullable=false, allowBlank=false)
-     * @Annotations\QueryParam(name="email", description="E-mail", nullable=false, allowBlank=false)
-     * @Annotations\QueryParam(name="firstname", description="Firstname", nullable=false, allowBlank=false)
-     * @Annotations\QueryParam(name="lastname", description="Lastname", nullable=false, allowBlank=false)
+     * @Annotations\RequestParam(name="username", description="Username", nullable=false, allowBlank=false)
+     * @Annotations\RequestParam(name="email", description="E-mail", nullable=false, allowBlank=false)
+     * @Annotations\RequestParam(name="firstname", description="Firstname", nullable=false, allowBlank=false)
+     * @Annotations\RequestParam(name="lastname", description="Lastname", nullable=false, allowBlank=false)
      *
      * @param ParamFetcherInterface $paramFetcher the paramFetcher object
      *
@@ -163,25 +173,32 @@ class UserController extends FOSRestController
     }
 
     /**
-     * Update existing user from the submitted data.
+     * Update existing user from the submitted data and return that object.
      *
      * @Annotations\Route("api/user/{id}/", methods={"PUT"})
      *
      * @ApiDoc(
+     *   section="User",
      *   resource = true,
-     *   input = "AppBundle\Form\UserType",
+     *   output = "AppBundle\Entity\User",
      *   statusCodes = {
      *     200 = "Returned when successful",
      *     404 = "Returned when is not found",
      *     500 = "Returned when there are errors",
+     *   },
+     *   parameters = {
+     *        { "name" = "username", "dataType" = "string" },
+     *        { "name" = "email", "dataType" = "string" },
+     *        { "name" = "firstname", "dataType" = "string" },
+     *        { "name" = "lastname", "dataType" = "string" }
      *   }
      * )
      * @Annotations\View()
      *
-     * @Annotations\QueryParam(name="username", description="Username", nullable=true, allowBlank=true)
-     * @Annotations\QueryParam(name="email", description="E-mail", nullable=true, allowBlank=true)
-     * @Annotations\QueryParam(name="firstname", description="Firstname", nullable=true, allowBlank=true)
-     * @Annotations\QueryParam(name="lastname", description="Lastname", nullable=true, allowBlank=true)
+     * @Annotations\RequestParam(name="username", description="Username", nullable=true, allowBlank=true)
+     * @Annotations\RequestParam(name="email", description="E-mail", nullable=true, allowBlank=true)
+     * @Annotations\RequestParam(name="firstname", description="Firstname", nullable=true, allowBlank=true)
+     * @Annotations\RequestParam(name="lastname", description="Lastname", nullable=true, allowBlank=true)
      *
      * @param ParamFetcherInterface $paramFetcher the paramFetcher object
      * @param int     $id      the user id
@@ -215,6 +232,7 @@ class UserController extends FOSRestController
      * @Annotations\Route("api/user/{id}/", methods={"DELETE"})
      *
      * @ApiDoc(
+     *   section="User",
      *   resource = true,
      *   statusCodes={
      *     200="Returned when successful",
